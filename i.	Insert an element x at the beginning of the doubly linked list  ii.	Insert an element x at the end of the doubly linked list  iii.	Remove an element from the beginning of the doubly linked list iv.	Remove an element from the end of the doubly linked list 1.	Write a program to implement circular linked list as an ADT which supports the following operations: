@@ -1,0 +1,113 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+
+    # i. Insert an element x in the list (at end)
+    def insert(self, x):
+        new_node = Node(x)
+        if self.head is None:
+            self.head = new_node
+            new_node.next = self.head  # Point to itself
+        else:
+            current = self.head
+            while current.next != self.head:
+                current = current.next
+            current.next = new_node
+            new_node.next = self.head
+
+    # ii. Remove an element x from the list
+    def remove(self, x):
+        if self.head is None:
+            print("List is empty! Cannot remove.")
+            return
+
+        current = self.head
+        prev = None
+
+        while True:
+            if current.data == x:
+                if prev is None:  # removing head
+                    # Single node
+                    if current.next == self.head:
+                        self.head = None
+                    else:
+                        # Find last node to update its next
+                        tail = self.head
+                        while tail.next != self.head:
+                            tail = tail.next
+                        self.head = self.head.next
+                        tail.next = self.head
+                else:
+                    prev.next = current.next
+                return
+            prev = current
+            current = current.next
+            if current == self.head:
+                break
+
+        print(f"Element {x} not found.")
+
+    # iii. Search for an element x and return its pointer
+    def search(self, x):
+        if self.head is None:
+            return None
+
+        current = self.head
+        while True:
+            if current.data == x:
+                return current
+            current = current.next
+            if current == self.head:
+                break
+        return None
+
+    # Display the list
+    def display(self):
+        if self.head is None:
+            print("List is empty.")
+            return
+
+        current = self.head
+        while True:
+            print(current.data, end=" -> ")
+            current = current.next
+            if current == self.head:
+                break
+        print("(back to head)")
+
+# Usage
+if __name__ == "__main__":
+    cll = CircularLinkedList()
+
+    # Insert elements
+    cll.insert(10)
+    cll.insert(20)
+    cll.insert(30)
+    cll.insert(40)
+
+    print("Circular Linked List:")
+    cll.display()
+
+    # Search for an element
+    result = cll.search(30)
+    if result:
+        print(f"\nElement 30 found at node with data: {result.data}")
+    else:
+        print("\nElement 30 not found.")
+
+    # Remove an element
+    cll.remove(20)
+    print("\nAfter removing element 20:")
+    cll.display()
+
+    cll.remove(10)
+    print("\nAfter removing head (10):")
+    cll.display()
+
+    cll.remove(99)
+    print("\nTrying to remove non-existing element 99:")
+    cll.display()
