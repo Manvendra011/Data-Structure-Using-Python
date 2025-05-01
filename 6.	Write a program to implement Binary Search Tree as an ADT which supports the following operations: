@@ -1,0 +1,123 @@
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+# BST class
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+
+    # i. Insert an element
+    def insert(self, key):
+        self.root = self._insert_recursive(self.root, key)
+
+    def _insert_recursive(self, node, key):
+        if node is None:
+            return Node(key)
+        if key < node.key:
+            node.left = self._insert_recursive(node.left, key)
+        elif key > node.key:
+            node.right = self._insert_recursive(node.right, key)
+        return node
+
+    # ii. Delete an element
+    def delete(self, key):
+        self.root = self._delete_recursive(self.root, key)
+
+    def _delete_recursive(self, node, key):
+        if node is None:
+            return None
+        if key < node.key:
+            node.left = self._delete_recursive(node.left, key)
+        elif key > node.key:
+            node.right = self._delete_recursive(node.right, key)
+        else:
+            # Case 1: no child
+            if node.left is None and node.right is None:
+                return None
+            # Case 2: one child
+            if node.left is None:
+                return node.right
+            if node.right is None:
+                return node.left
+            # Case 3: two children
+            min_larger_node = self._min_value_node(node.right)
+            node.key = min_larger_node.key
+            node.right = self._delete_recursive(node.right, min_larger_node.key)
+        return node
+
+    def _min_value_node(self, node):
+        current = node
+        while current.left:
+            current = current.left
+        return current
+
+    # iii. Search for an element
+    def search(self, key):
+        return self._search_recursive(self.root, key)
+
+    def _search_recursive(self, node, key):
+        if node is None or node.key == key:
+            return node
+        if key < node.key:
+            return self._search_recursive(node.left, key)
+        else:
+            return self._search_recursive(node.right, key)
+
+    # iv. Traversals
+    def inorder(self):
+        print("Inorder:", end=" ")
+        self._inorder(self.root)
+        print()
+
+    def _inorder(self, node):
+        if node:
+            self._inorder(node.left)
+            print(node.key, end=" ")
+            self._inorder(node.right)
+
+    def preorder(self):
+        print("Preorder:", end=" ")
+        self._preorder(self.root)
+        print()
+
+    def _preorder(self, node):
+        if node:
+            print(node.key, end=" ")
+            self._preorder(node.left)
+            self._preorder(node.right)
+
+    def postorder(self):
+        print("Postorder:", end=" ")
+        self._postorder(self.root)
+        print()
+
+    def _postorder(self, node):
+        if node:
+            self._postorder(node.left)
+            self._postorder(node.right)
+            print(node.key, end=" ")
+
+if __name__ == "__main__":
+    bst = BinarySearchTree()
+
+    # Insert elements
+    for key in [50, 30, 70, 20, 40, 60, 80]:
+        bst.insert(key)
+
+    # Traversals
+    bst.inorder()    # 20 30 40 50 60 70 80
+    bst.preorder()   # 50 30 20 40 70 60 80
+    bst.postorder()  # 20 40 30 60 80 70 50
+
+    result = bst.search(60)
+    print("\nSearch 60:", "Found" if result else "Not found")
+    result = bst.search(99)
+    print("Search 99:", "Found" if result else "Not found")
+
+    
+    bst.delete(30)
+    print("\nAfter deleting 30:")
+    bst.inorder()
