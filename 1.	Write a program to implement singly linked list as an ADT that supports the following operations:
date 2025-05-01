@@ -1,0 +1,317 @@
+#Insert an element x at the beginning of the singly linked list 
+ class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+    def insert_at_beginning(self, x):
+        new_node = Node(x)
+        new_node.next = self.head
+        self.head = new_node
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+if __name__ == "__main__":
+    sll = SinglyLinkedList()
+    sll.insert_at_beginning(10)
+    sll.insert_at_beginning(20)
+    sll.insert_at_beginning(30)
+    sll.display()
+
+
+
+
+
+#Insert an element x at ith position in the singly linked list  
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+    def insert_at_beginning(self, x):
+        new_node = Node(x)
+        new_node.next = self.head
+        self.head = new_node
+    def insert_at_position(self, x, i):
+        new_node = Node(x)
+        if i == 0:
+            new_node.next = self.head
+            self.head = new_node
+            return
+        
+        current = self.head
+        count = 0
+        while current is not None and count < i - 1:
+            current = current.next
+            count += 1
+
+        if current is None:
+            print("Position out of bounds!")
+            return
+        new_node.next = current.next
+        current.next = new_node
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+if __name__ == "__main__":
+    sll = SinglyLinkedList()
+    
+    # Inserting at beginning
+    sll.insert_at_beginning(10)
+    sll.insert_at_beginning(20)
+    sll.insert_at_beginning(30)
+    sll.insert_at_position(25, 1)  # Insert 25 at position 1
+    sll.insert_at_position(5, 4)   # Insert 5 at position 4
+    sll.insert_at_position(100, 10)  # Invalid position
+    sll.display()
+
+
+
+
+
+
+#Remove an element from the beginning of the doubly linked list 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+    def insert_at_beginning(self, x):
+        new_node = Node(x)
+        if self.head is not None:
+            new_node.next = self.head
+            self.head.prev = new_node
+        self.head = new_node
+
+    def remove_from_beginning(self):
+        if self.head is None:
+            print("List is empty! Nothing to remove.")
+            return
+
+        if self.head.next is None:
+            self.head = None
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" <-> ")
+            current = current.next
+        print("None")
+if __name__ == "__main__":
+    dll = DoublyLinkedList()
+    
+    dll.insert_at_beginning(10)
+    dll.insert_at_beginning(20)
+    dll.insert_at_beginning(30)
+
+    print("Original List:")
+    dll.display()
+    dll.remove_from_beginning()
+    print("\nAfter removing one element from beginning:")
+    dll.display()
+    dll.remove_from_beginning()
+    print("\nAfter removing another element from beginning:")
+    dll.display()
+    dll.remove_from_beginning()
+    print("\nAfter removing last element from beginning:")
+    dll.display()
+    dll.remove_from_beginning()  
+
+
+
+
+
+
+#Remove an element from ith position in the singly linked list. 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert_at_beginning(self, x):
+        new_node = Node(x)
+        new_node.next = self.head
+        self.head = new_node
+
+    def insert_at_position(self, x, i):
+        new_node = Node(x)
+        if i == 0:
+            new_node.next = self.head
+            self.head = new_node
+            return
+
+        current = self.head
+        count = 0
+
+        while current is not None and count < i - 1:
+            current = current.next
+            count += 1
+
+        if current is None:
+            print("Position out of bounds!")
+            return
+
+        new_node.next = current.next
+        current.next = new_node
+
+    def remove_at_position(self, i):
+        if self.head is None:
+            print("List is empty! Nothing to remove.")
+            return
+
+        if i == 0:
+            self.head = self.head.next
+            return
+
+        current = self.head
+        count = 0
+        while current is not None and count < i - 1:
+            current = current.next
+            count += 1
+
+        if current is None or current.next is None:
+            print("Position out of bounds!")
+            return
+
+        
+        current.next = current.next.next
+
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+if __name__ == "__main__":
+    sll = SinglyLinkedList()
+    
+    sll.insert_at_beginning(10)
+    sll.insert_at_beginning(20)
+    sll.insert_at_beginning(30)
+    sll.insert_at_beginning(40)
+
+    print("Original List:")
+    sll.display()
+    sll.remove_at_position(2)
+    print("\nAfter removing element at position 2:")
+    sll.display()
+    sll.remove_at_position(5)
+
+
+
+
+
+
+#Search for an element x in the singly linked list and return its pointer
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SinglyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def insert_at_beginning(self, x):
+        new_node = Node(x)
+        new_node.next = self.head
+        self.head = new_node
+    def insert_at_position(self, x, i):
+        new_node = Node(x)
+        if i == 0:
+            new_node.next = self.head
+            self.head = new_node
+            return
+
+        current = self.head
+        count = 0
+
+        while current is not None and count < i - 1:
+            current = current.next
+            count += 1
+
+        if current is None:
+            print("Position out of bounds!")
+            return
+
+        new_node.next = current.next
+        current.next = new_node
+    def remove_at_position(self, i):
+        if self.head is None:
+            print("List is empty! Nothing to remove.")
+            return
+
+        if i == 0:
+            self.head = self.head.next
+            return
+
+        current = self.head
+        count = 0
+
+        while current is not None and count < i - 1:
+            current = current.next
+            count += 1
+
+        if current is None or current.next is None:
+            print("Position out of bounds!")
+            return
+
+        current.next = current.next.next
+
+    def search(self, x):
+        current = self.head
+        while current is not None:
+            if current.data == x:
+                return current  # Return the node (pointer)
+            current = current.next
+        return None  # Not found
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+if __name__ == "__main__":
+    sll = SinglyLinkedList()
+    sll.insert_at_beginning(10)
+    sll.insert_at_beginning(20)
+    sll.insert_at_beginning(30)
+    sll.insert_at_beginning(40)
+    print("Original List:")
+    sll.display()
+
+    result = sll.search(20)
+    if result:
+        print(f"\nElement 20 found at node with data: {result.data}")
+    else:
+        print("\nElement 20 not found.")
+
+    result = sll.search(99)
+    if result:
+        print(f"\nElement 99 found at node with data: {result.data}")
+    else:
+        print("\nElement 99 not found.")
