@@ -1,0 +1,53 @@
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    # Enqueue operation (add to rear)
+    def enqueue(self, x):
+        self.items.append(x)
+
+    # Dequeue operation (remove from front)
+    def dequeue(self):
+        if not self.is_empty():
+            return self.items.pop(0)
+        raise IndexError("dequeue from empty queue")
+
+    # Peek front element
+    def front(self):
+        if not self.is_empty():
+            return self.items[0]
+        return None
+
+    # Check if queue is empty
+    def is_empty(self):
+        return len(self.items) == 0
+
+    # Get size of queue
+    def size(self):
+        return len(self.items)
+
+    # Display the queue
+    def display(self):
+        print("Front ->", end=" ")
+        for item in self.items:
+            print(item, end=" ")
+        print("<- Rear")
+
+if __name__ == "__main__":
+    q = Queue()
+
+    q.enqueue(10)
+    q.enqueue(20)
+    q.enqueue(30)
+
+    print("Initial queue:")
+    q.display()
+
+    print("Front element:", q.front())
+    print("Dequeue:", q.dequeue())
+
+    print("Queue after dequeue:")
+    q.display()
+
+    print("Queue size:", q.size())
+    print("Is queue empty?", q.is_empty())
