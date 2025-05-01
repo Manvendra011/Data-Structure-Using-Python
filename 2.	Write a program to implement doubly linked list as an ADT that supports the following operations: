@@ -1,0 +1,91 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.prev = None
+        self.next = None
+
+# Doubly Linked List class
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    # i. Insert at beginning
+    def insert_at_beginning(self, x):
+        new_node = Node(x)
+        new_node.next = self.head
+        if self.head is not None:
+            self.head.prev = new_node
+        self.head = new_node
+
+    # ii. Insert at end
+    def insert_at_end(self, x):
+        new_node = Node(x)
+        if self.head is None:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+        new_node.prev = current
+
+    # iii. Remove from beginning
+    def remove_from_beginning(self):
+        if self.head is None:
+            print("List is empty! Nothing to remove.")
+            return
+        if self.head.next is None:
+            self.head = None
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+
+    # iv. Remove from end
+    def remove_from_end(self):
+        if self.head is None:
+            print("List is empty! Nothing to remove.")
+            return
+        if self.head.next is None:
+            self.head = None
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.prev.next = None
+
+    # Display list
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=" <-> ")
+            current = current.next
+        print("None")
+
+# Test the doubly linked list
+if __name__ == "__main__":
+    dll = DoublyLinkedList()
+
+    # Insertions
+    dll.insert_at_beginning(10)
+    dll.insert_at_beginning(20)
+    dll.insert_at_end(5)
+    dll.insert_at_end(1)
+
+    print("List after insertions:")
+    dll.display()
+
+    # Removals
+    dll.remove_from_beginning()
+    print("\nList after removing from beginning:")
+    dll.display()
+
+    dll.remove_from_end()
+    print("\nList after removing from end:")
+    dll.display()
+
+    dll.remove_from_beginning()
+    dll.remove_from_end()
+    print("\nList after removing all elements:")
+    dll.display()
+
+    dll.remove_from_beginning()  
