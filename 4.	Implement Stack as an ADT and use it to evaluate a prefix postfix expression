@@ -1,0 +1,68 @@
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, x):
+        self.items.append(x)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.items.pop()
+        raise IndexError("pop from empty stack")
+
+    def peek(self):
+        if not self.is_empty():
+            return self.items[-1]
+        return None
+
+    def is_empty(self):
+        return len(self.items) == 0
+
+def evaluate_postfix(expression):
+    stack = Stack()
+    tokens = expression.split()
+
+    for token in tokens:
+        if token.isdigit():
+            stack.push(int(token))
+        else:
+            right = stack.pop()
+            left = stack.pop()
+            result = apply_operator(left, right, token)
+            stack.push(result)
+
+    return stack.pop()
+
+def evaluate_prefix(expression):
+    stack = Stack()
+    tokens = expression.split()[::-1]  # Reverse the expression
+
+    for token in tokens:
+        if token.isdigit():
+            stack.push(int(token))
+        else:
+            left = stack.pop()
+            right = stack.pop()
+            result = apply_operator(left, right, token)
+            stack.push(result)
+
+    return stack.pop()
+
+def apply_operator(a, b, operator):
+    if operator == '+': return a + b
+    if operator == '-': return a - b
+    if operator == '*': return a * b
+    if operator == '/': return a // b  # Integer division
+    raise ValueError(f"Unknown operator: {operator}")
+
+if __name__ == "__main__":
+    postfix_expr = "5 6 2 + * 12 4 / -"
+    prefix_expr = "- * 5 + 6 2 / 12 4"
+
+    print("Postfix Evaluation:")
+    print(f"Expression: {postfix_expr}")
+    print("Result:", evaluate_postfix(postfix_expr))
+
+    print("\nPrefix Evaluation:")
+    print(f"Expression: {prefix_expr}")
+    print("Result:", evaluate_prefix(prefix_expr))
